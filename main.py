@@ -37,14 +37,15 @@ def get_weather():
   if city is None:
     print('请设置城市')
     return None
-  url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
+  url=https://restapi.amap.com/v3/weather/weatherInfo?city=420111&key=fd6481f6e4478e4501956dfed20800fe
+#   url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
   # OpenRefactory Warning: The 'requests.get' method does not use any 'timeout' threshold which may cause program to hang indefinitely.
   res = requests.get(url, timeout=100).json()
   if res is None:
     return None
-  if res['code'] != 0:
+  if res['stauts'] == 0:
     return None
-  weather = res['data']['list'][0]
+  weather = res['lives'][0]
   return weather
 
 # 获取当前日期为星期几
@@ -106,7 +107,7 @@ if weather is None:
   exit(422)
 data = {
   "city": {
-    "value": city,
+    "value": weather['city'],
     "color": get_random_color()
   },
   "date": {
@@ -126,27 +127,11 @@ data = {
     "color": get_random_color()
   },
   "wind": {
-    "value": weather['wind'],
-    "color": get_random_color()
-  },
-  "air_data": {
-    "value": weather['airData'],
-    "color": get_random_color()
-  },
-  "air_quality": {
-    "value": weather['airQuality'],
+    "value": weather['windpower'],
     "color": get_random_color()
   },
   "temperature": {
-    "value": math.floor(weather['temp']),
-    "color": get_random_color()
-  },
-  "highest": {
-    "value": math.floor(weather['high']),
-    "color": get_random_color()
-  },
-  "lowest": {
-    "value": math.floor(weather['low']),
+    "value": math.floor(weather['temperature']),
     "color": get_random_color()
   },
   "love_days": {
